@@ -1,0 +1,25 @@
+/* .mapboxgl-popup {
+    max-width:fit-content;
+  } */
+
+.mapboxgl-popup-content{
+    width:auto;
+    overflow-x: visible;
+}
+
+/* .popup-facility{
+    max-height: 300px;
+    overflow-y: auto;
+} */
+
+
+.mapboxgl-popup-close-button{
+    width: 25px;
+    height: 25px;
+    
+}
+
+.mapboxgl-popup-close-button:hover{
+    background-color: red;
+    color: rgb(137, 0, 0);
+}

@@ -20,7 +20,8 @@ const pages = ['Products', 'Pricing', 'Blog'];
 const after_login = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const before_login = ['Login', 'Registration'];
 
-let LoggedIn = sessionStorage.getItem('token')? true : false;
+let LoggedIn = sessionStorage.getItem('token') ? true : false;
+
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -39,14 +40,40 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
+
+  const userMenuItems = LoggedIn
+    ? [
+        <Link to={'/user/'} key="profile">
+          <MenuItem onClick={handleCloseUserMenu}>
+            <Typography textAlign="center">Profile</Typography>
+          </MenuItem>
+        </Link>,
+        <Link to={'/logout/'} key="logout">
+          <MenuItem onClick={handleCloseUserMenu}>
+            <Typography textAlign="center">Logout</Typography>
+          </MenuItem>
+        </Link>,
+      ]
+    : [
+        <Link to={'/login/'} key="login">
+          <MenuItem onClick={handleCloseUserMenu}>
+            <Typography textAlign="center">Sign In</Typography>
+          </MenuItem>
+        </Link>,
+        <Link to={'/register/'} key="register">
+          <MenuItem onClick={handleCloseUserMenu}>
+            <Typography textAlign="center">User Registration</Typography>
+          </MenuItem>
+        </Link>,
+      ];
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography to='/'
+          <Typography
+            to="/"
             variant="h6"
             noWrap
             component="a"
@@ -61,8 +88,6 @@ function ResponsiveAppBar() {
             }}
           >
             EduMap Chemnitz
-
-
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -102,7 +127,8 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography to='/'
+          <Typography
+            to="/"
             variant="h5"
             noWrap
             component="a"
@@ -133,7 +159,6 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-
             {LoggedIn ? (
               <Tooltip title="Open Profile">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -143,17 +168,13 @@ function ResponsiveAppBar() {
             ) : (
               <Tooltip title="Log in / Registration">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'warning' }}>
-
-                  <p className='text-white text-sm font-bold mx-4'>Sign in / Sign Up</p>
+                  <p className="text-white text-sm font-bold mx-4">Sign in / Sign Up</p>
                   <LoginIcon />
                 </IconButton>
               </Tooltip>
-
             )}
 
-
             <Menu
-              // sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -168,54 +189,7 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {LoggedIn ? (
-                <>
-                <Link to={'/user/'}>
-                      <MenuItem key='registration' onClick={handleCloseUserMenu}>
-
-                        <Typography textAlign="center">
-                          Profile
-
-                        </Typography>
-                      </MenuItem>
-                    </Link>
-
-                    <Link to={'/logout/'}>
-                      <MenuItem key='registration' onClick={handleCloseUserMenu}>
-
-                        <Typography textAlign="center">
-                          Logout
-                        </Typography>
-                      </MenuItem>
-                    </Link>
-                </>
-              ) : (
-                (
-                  <>
-                    <Link to={'/login/'}>
-                      <MenuItem key='registration' onClick={handleCloseUserMenu}>
-
-                        <Typography textAlign="center">
-                          Sign In
-
-                        </Typography>
-                      </MenuItem>
-                    </Link>
-
-                    <Link to={'/register/'}>
-                      <MenuItem key='registration' onClick={handleCloseUserMenu}>
-
-                        <Typography textAlign="center">
-                          User Registration
-
-                        </Typography>
-                      </MenuItem>
-                    </Link>
-                  </>
-
-                )
-              )}
-
+              {userMenuItems}
             </Menu>
           </Box>
         </Toolbar>
@@ -223,4 +197,5 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;

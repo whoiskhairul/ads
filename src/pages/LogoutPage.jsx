@@ -1,40 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import Nav from '../components/Nav'
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Nav from '../components/Nav';
 
 const LogoutPage = () => {
-    useEffect(() => {
-        const Logout = async () => {
-            const token = sessionStorage.getItem('token'); // Retrieve token from session storage
-            if (!token) {
-                // setError('No token found');
-                history.push('/login'); // Redirect to login page if no token found
-                return;
-            }
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const logout = async () => {
             try {
-                alert('Logging out');
-                const response = await axios.get('http://127.0.0.1:8000/auth/logout/', {
+                const response = await fetch('http://localhost:8000/auth/logout/', {
+                    method: 'POST',
                     headers: {
-                        Authorization: `Token ${token}`,
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${sessionStorage.getItem('token')}`, // Assuming you store the token in localStorage
                     },
                 });
-                sessionStorage.removeItem('token', token);
 
+                if (response.ok) {
+                    // Remove the token from localStorage
+                    sessionStorage.removeItem('token');
+                    // Redirect to the login page or home page
+                    navigate('/');
+                } else {
+                    // Handle errors
+                    console.error('Logout failed');
+                }
             } catch (error) {
-                alert('Failed to logout');
+                console.error('An error occurred during logout:', error);
             }
         };
 
-        Logout();
-    }, []);
+        logout();
+    }, [navigate]);
 
     return (
         <div>
             <Nav />
-            <h1>Successfully logged out.</h1>
+            <h1>Logging out...</h1>
         </div>
-    )
-}
+    );
+};
 
-export default LogoutPage
+export default LogoutPage;

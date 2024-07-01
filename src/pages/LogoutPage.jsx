@@ -12,13 +12,13 @@ const LogoutPage = () => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${sessionStorage.getItem('token')}`, // Assuming you store the token in localStorage
+                        'Authorization': `Token ${localStorage.getItem('token')}`, // Assuming you store the token in localStorage
                     },
                 });
 
                 if (response.ok) {
                     // Remove the token from localStorage
-                    sessionStorage.removeItem('token');
+                    localStorage.removeItem('token');
                     // Redirect to the login page or home page
                     navigate('/');
                 } else {

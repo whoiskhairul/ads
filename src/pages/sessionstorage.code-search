@@ -1,0 +1,62 @@
+# Query: sessionstorage
+# ContextLines: 1
+
+14 results - 7 files
+
+src/components/Login.jsx:
+  15    useEffect(() => {
+  16:     const token = localStorage.getItem('token');
+  17      if (token) {
+
+  40          // console.log(token);
+  41:         // Store the token in localStorage
+  42:         localStorage.setItem('token', token);
+  43          setError('');
+
+src/components/Map.jsx:
+  18  ];
+  19: const token = localStorage.getItem('token');
+  20  console.log(token)
+
+src/components/Nav.jsx:
+  24  
+  25: // let LoggedIn = localStorage.getItem('token') ? true : false;
+  26  
+
+  29    const [anchorElUser, setAnchorElUser] = React.useState(null);
+  30:   const [LoggedIn, setLoggedIn] = React.useState(localStorage.getItem('token') ? true : false);
+  31  
+  32    useEffect(() => {
+  33:     setLoggedIn(localStorage.getItem('token') ? true : false);
+  34    });
+
+src/pages/DeleteProfile.jsx:
+  15                      'Content-Type': 'application/json',
+  16:                     'Authorization': `Token ${localStorage.getItem('token')}` // replace with the actual token
+  17                  }
+  18              });
+  19:             localStorage.removeItem('token');
+  20              console.log(response.data);
+
+src/pages/LogoutPage.jsx:
+  14                          'Content-Type': 'application/json',
+  15:                         'Authorization': `Token ${localStorage.getItem('token')}`, // Assuming you store the token in localStorage
+  16                      },
+
+  20                      // Remove the token from localStorage
+  21:                     localStorage.removeItem('token');
+  22                      // Redirect to the login page or home page
+
+src/pages/UpdateUser.jsx:
+   19          const fetchUser = async () => {
+   20:             const token = localStorage.getItem('token'); // Retrieve token from session storage
+   21              if (!token) {
+
+  130          e.preventDefault();
+  131:         const token = localStorage.getItem('token');
+  132          if (!token) {
+
+src/pages/UserPage.jsx:
+  12          const fetchUser = async () => {
+  13:             const token = localStorage.getItem('token'); // Retrieve token from session storage
+  14              if (!token) {

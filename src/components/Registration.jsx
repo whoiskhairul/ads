@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
+import 'tailwindcss/tailwind.css';
+
 function Register() {
   const [formData, setFormData] = useState({
     username: '',
@@ -10,6 +14,8 @@ function Register() {
   });
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -27,43 +33,84 @@ function Register() {
       },
       body: JSON.stringify(formData),
     });
-    console.log(formData)
+    console.log(response.status, response.ok)
+     // Store the response data
 
     if (response.ok) {
-      const data = await response.json();
-      console.log('User registered:', data);
+      console.log('User registered:');
+      alert('User registered successfully');
+      navigate('/login');
+
     } else {
-      const errorData = await response.json();
-      setErrors(errorData);
-      console.error('Registration failed', errorData);
+      console.log('Lets see')
+      setErrors(await response.json());
+      console.error('Registration failed');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
-        {errors.username && <span style={{color: 'red'}}>{errors.username}</span>}
-      </div>
-      <div>
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        {errors.email && <span style={{color: 'red'}}>{errors.email}</span>}
-      </div>
-      <div>
-        <input type="password" name="password1" placeholder="Password" onChange={handleChange} required />
-        {errors.password1 && <span style={{color: 'red'}}>{errors.password1}</span>}
-      </div>
-      <div>
-        <input type="password" name="password2" placeholder="Confirm Password" onChange={handleChange} required />
-        {errors.password2 && <span style={{color: 'red'}}>{errors.password2}</span>}
-      </div>
-      <div>
-        <input type="text" name="home_address" placeholder="Address" onChange={handleChange} required />
-        {errors.home_address && <span style={{color: 'red'}}>{errors.home_address}</span>}
-      </div>
-      <button type="submit">Register</button>
-      {errors.non_field_errors && <div style={{color: 'red'}}>{errors.non_field_errors}</div>}
-    </form>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Register</h2>
+        <div className="mb-4">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+          />
+          {errors.username && <span className="text-red-500 text-sm">{errors.username}</span>}
+        </div>
+        <div className="mb-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+          />
+          {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
+        </div>
+        <div className="mb-4">
+          <input
+            type="password"
+            name="password1"
+            placeholder="Password"
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+          />
+          {errors.password1 && <span className="text-red-500 text-sm">{errors.password1}</span>}
+        </div>
+        <div className="mb-4">
+          <input
+            type="password"
+            name="password2"
+            placeholder="Confirm Password"
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+          />
+          {errors.password2 && <span className="text-red-500 text-sm">{errors.password2}</span>}
+        </div>
+        <div className="mb-4">
+          <input
+            type="text"
+            name="home_address"
+            placeholder="Address"
+            onChange={handleChange}
+            required
+            className="w-full p-2 border border-gray-300 rounded mt-1"
+          />
+          {errors.home_address && <span className="text-red-500 text-sm">{errors.home_address}</span>}
+        </div>
+        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200">Register</button>
+        {errors.non_field_errors && <div className="text-red-500 text-sm mt-4">{errors.non_field_errors}</div>}
+      </form>
+    </div>
   );
 }
 

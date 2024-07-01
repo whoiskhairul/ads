@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
@@ -16,16 +17,21 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import LoginIcon from '@mui/icons-material/Login';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = [ 'impressum',];
 const after_login = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const before_login = ['Login', 'Registration'];
 
-let LoggedIn = sessionStorage.getItem('token') ? true : false;
+// let LoggedIn = sessionStorage.getItem('token') ? true : false;
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [LoggedIn, setLoggedIn] = React.useState(localStorage.getItem('token') ? true : false);
 
+  useEffect(() => {
+    setLoggedIn(localStorage.getItem('token') ? true : false);
+  });
+  
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -73,10 +79,10 @@ function ResponsiveAppBar() {
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
-            to="/"
             variant="h6"
             noWrap
             component="a"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -121,9 +127,12 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography href={page} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key="direction" onClick={handleCloseNavMenu}>
+                  <Typography href="/direction" textAlign="center">direction</Typography>
+                </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -132,7 +141,7 @@ function ResponsiveAppBar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -148,13 +157,26 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <>
               <Button
                 key={page}
+                href = {page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
               </Button>
+              <Button
+              key="direction"
+              href = "/direction"
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              direction
+            </Button>
+              </>
+              
+              
             ))}
           </Box>
 
@@ -162,7 +184,7 @@ function ResponsiveAppBar() {
             {LoggedIn ? (
               <Tooltip title="Open Profile">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src="../assets/avater.png" />
                 </IconButton>
               </Tooltip>
             ) : (
